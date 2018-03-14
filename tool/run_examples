@@ -1,0 +1,8 @@
+python maian.py -s example_contracts/example_suicidal.sol KAI -c 0
+python maian.py -b example_contracts/example_suicidal.bytecode -c 0
+python maian.py -bs example_contracts/example_suicidal.bytecode_source -c 0
+python maian.py -s example_contracts/example_prodigal.sol Adoption -c 1
+python maian.py -b example_contracts/example_prodigal.bytecode -c 1
+python maian.py -bs example_contracts/example_prodigal.bytecode_source -c 1
+python maian.py -b example_contracts/example_greedy.bytecode -c 2
+python maian.py -s example_contracts/ParityWalletLibrary.sol WalletLibrary -c 0
