@@ -20,6 +20,7 @@ For instance, to check if the contract `ParityWalletLibrary.sol` given in Solidi
 	$ python maian.py -s ParityWalletLibrary.sol WalletLibrary -c 0
 
 The output should look like this:
+
 ![smiley](maian.png)
 
 To get the full list of options use `python maian.py -h`
