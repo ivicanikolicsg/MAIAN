@@ -125,17 +125,17 @@ def binary( o1, o2 , step, op='NONE'):
     elif op =='LT'  : z3 = If(ULT(z1, z2), BitVecVal(1, 256), BitVecVal(0, 256))
     elif op =='SLT' : z3 = If(z1 < z2, BitVecVal(1, 256), BitVecVal(0, 256))
     elif op =='EQ'  : 
-		global last_eq_step, last_eq_func
+        global last_eq_step, last_eq_func
 
-		# May reveal function calls
+        # May reveal function calls
         # last_eq_step and _func are used only in the debugging mode
-		if is_bv_value(z1) and z1.as_long() < 2**32 and z1.as_long() > 2**28: 
-			MyGlobals.last_eq_step = step
-			MyGlobals.last_eq_func = z1.as_long()
-		if is_bv_value(z2) and z2.as_long() < 2**32 and z2.as_long() > 2**28: 
-			MyGlobals.last_eq_step = step
-			MyGlobals.last_eq_func = z2.as_long()
-		z3 = If(z1 == z2, BitVecVal(1, 256), BitVecVal(0, 256))
+        if is_bv_value(z1) and z1.as_long() < 2**32 and z1.as_long() > 2**28: 
+            MyGlobals.last_eq_step = step
+            MyGlobals.last_eq_func = z1.as_long()
+        if is_bv_value(z2) and z2.as_long() < 2**32 and z2.as_long() > 2**28: 
+            MyGlobals.last_eq_step = step
+            MyGlobals.last_eq_func = z2.as_long()
+        z3 = If(z1 == z2, BitVecVal(1, 256), BitVecVal(0, 256))
     else:
         print('did not process binary operation %s  ' % op)
         print(o1)
@@ -199,7 +199,7 @@ def execute( code, stack, pos, storage, mmemory, data, trace, calldepth, debug, 
 
     # all unary
     if op in ['ISZERO','NOT']: 
-    	stack.append( unary ( args[0] ,step, op ) )
+        stack.append( unary ( args[0] ,step, op ) )
         
     # all binary except SIGNEXTEND
     elif op in ['ADD','MUL','SUB','DIV','SDIV','MOD','SMOD','EXP','AND','OR','XOR', 'LT','GT','SLT','SGT','EQ']:
@@ -211,18 +211,18 @@ def execute( code, stack, pos, storage, mmemory, data, trace, calldepth, debug, 
 
     elif op == 'SIGNEXTEND':
 
-		if not is_fixed(args[0]) or not is_fixed(args[1]): 
-			stack.append( {'type':'undefined','step':step} )
+        if not is_fixed(args[0]) or not is_fixed(args[1]): 
+            stack.append( {'type':'undefined','step':step} )
 
-		else:
+        else:
 
-			o = get_value(args[1])
-			t = 256 - 8*( get_value(args[0]) + 1 )
-			tbit = (o >> t ) & 1
-			n = 0
-			for i in range(256):
-				n ^= (tbit if i<= t else ((o>>i)&1)) << i
-			stack.append( {'type':'undefined','step':step, 'z3':BitVecVal( n, 256 ) } )
+            o = get_value(args[1])
+            t = 256 - 8*( get_value(args[0]) + 1 )
+            tbit = (o >> t ) & 1
+            n = 0
+            for i in range(256):
+                n ^= (tbit if i<= t else ((o>>i)&1)) << i
+            stack.append( {'type':'undefined','step':step, 'z3':BitVecVal( n, 256 ) } )
 
 
     elif op == 'SHA3':
@@ -322,19 +322,19 @@ def execute( code, stack, pos, storage, mmemory, data, trace, calldepth, debug, 
 
         elif is_undefined(addr):
 
-        	if debug:
-        	    print ('\033[95m[-] In CALLDATALOAD the input address cannot be determined at step %x: \033[0m' % code[pos]['id'] )
-        	    print( addr )
-        	return pos, True
+            if debug:
+                print ('\033[95m[-] In CALLDATALOAD the input address cannot be determined at step %x: \033[0m' % code[pos]['id'] )
+                print( addr )
+            return pos, True
 
         #
         # if the address is not fixed (symbolic expression) then assume we are dealing with dynamic array
         # and input[ address ] is the length of the array
         else:
 
-        	stack.append( args[0] )
+            stack.append( args[0] )
 
-        	return pos, False
+            return pos, False
 
 
 
@@ -366,12 +366,12 @@ def execute( code, stack, pos, storage, mmemory, data, trace, calldepth, debug, 
         length  = args[2]
 
         if not is_fixed(memaddr) or not is_fixed( datapos ) or not is_fixed( length ):
-        	if debug: 
-        		print('\033[95m[-] In CALLDATACOPY the memory address or datapos or length cannot be determined \033[0m' )
-        		print(memaddr)
-        		print(datapos)
-        		print(length)
-        	return pos, True
+            if debug: 
+                print('\033[95m[-] In CALLDATACOPY the memory address or datapos or length cannot be determined \033[0m' )
+                print(memaddr)
+                print(datapos)
+                print(length)
+            return pos, True
 
         memaddr = get_value ( memaddr )
         datapos = get_value ( datapos )
@@ -379,9 +379,9 @@ def execute( code, stack, pos, storage, mmemory, data, trace, calldepth, debug, 
 
 
         if length % 32 != 0:
-        	if debug:
-        		print('\033[95m[-] In CALLDATACOPY the length of array (%d) is not multiple of 32 \033[0m' % length )
-        	return pos, True
+            if debug:
+                print('\033[95m[-] In CALLDATACOPY the length of array (%d) is not multiple of 32 \033[0m' % length )
+            return pos, True
 
         for i in range( length / 32 ):
             data[ datapos + 32 * i ] = BitVec('input'+str(calldepth)+'['+str(datapos + 32 * i )+']',256)
@@ -421,15 +421,15 @@ def execute( code, stack, pos, storage, mmemory, data, trace, calldepth, debug, 
     elif op == 'MSTORE':
 
 
-		addr = args[0]
-		if is_undefined(addr) or not is_bv_value( simplify(addr['z3']) ) :
-		    if debug:print('\033[95m[-] The MSTORE the write address on %x  cannot be determined\033[0m' % code[pos]['id'] )
-		    return pos, True
+        addr = args[0]
+        if is_undefined(addr) or not is_bv_value( simplify(addr['z3']) ) :
+            if debug:print('\033[95m[-] The MSTORE the write address on %x  cannot be determined\033[0m' % code[pos]['id'] )
+            return pos, True
 
-		t = copy.deepcopy( args[1] )
-		addr = get_value(addr)
+        t = copy.deepcopy( args[1] )
+        addr = get_value(addr)
 
-		store_in_memory( mmemory, addr, t )
+        store_in_memory( mmemory, addr, t )
 
 
     elif op in ['MSTORE8']:
@@ -528,12 +528,12 @@ def execute( code, stack, pos, storage, mmemory, data, trace, calldepth, debug, 
         if not is_fixed( addr ):
             if debug: print('\033[95m[-] In JUMP the address cannot be determined \033[0m'  )
             return pos, True
-	
+    
         jump_dest = get_value( addr )
         if( jump_dest <= 0):
             if debug: print('\033[95m[-] The JUMP destination is not a valid address : %x\033[0m'  % jump_dest )
             return pos, True
-	
+    
         new_position= find_pos(code, jump_dest )
 
         if( new_position < 0):
@@ -553,9 +553,9 @@ def execute( code, stack, pos, storage, mmemory, data, trace, calldepth, debug, 
         byte_no = args[0]
         word    = args[1]
         if is_undefined(word) or is_undefined(byte_no): 
-        	res = {'type':'undefined','step':step}
+            res = {'type':'undefined','step':step}
         else:  											
-        	res = {'type':'constant','step':step, 'z3': (word['z3'] >> (8*(31-byte_no['z3'])) ) & 0xff }
+            res = {'type':'constant','step':step, 'z3': (word['z3'] >> (8*(31-byte_no['z3'])) ) & 0xff }
 
         stack.append( res )
 

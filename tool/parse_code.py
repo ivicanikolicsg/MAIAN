@@ -7,7 +7,7 @@ def print_code(code,ops):
 
 def get_one_op( code, pos, size_of_input, debug=False ):
     if pos + 2 + size_of_input > len(code ):
-    	if debug: print('Incorrect code op at %x : %d : %d :  %s' % (pos/2, pos+2+size_of_input, len(code), code[pos:] ) )
+        if debug: print('Incorrect code op at %x : %d : %d :  %s' % (pos/2, pos+2+size_of_input, len(code), code[pos:] ) )
     instruction = '0x' + code[pos:pos+2]
     o = ''
     if instruction in cops:
