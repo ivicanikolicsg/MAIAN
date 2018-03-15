@@ -349,15 +349,6 @@ class Ui_MAIAN(object):
             tx = tx.replace('\033['+tz+'m','')
             tx = tx.replace('['+tz+'m','')
 
-        '''
-        tx = tx.replace('[0m','')
-        tx = tx.replace('[1m','')
-        tx = tx.replace('[91m','')
-        tx = tx.replace('[92m','')
-        tx = tx.replace('[93m','')
-        tx = tx.replace('[94m','')
-        '''
-
         self.txtLog.setText(tx)
 
         cursor = self.txtLog.textCursor()
@@ -374,6 +365,8 @@ class Ui_MAIAN(object):
 
         if self.txtLog.toPlainText().find('Check if contract is PRODIGAL') >= 0:
             t += '<strong>Check on PRODIGAL </strong> <br />'
+        if self.txtLog.toPlainText().find('The code does not have CALL/SUICIDE,') >= 0:
+            t += '<font color="green">Not vulnerable</font><br />'
         if self.txtLog.toPlainText().find('Leak vulnerability found') >= 0:
             t += '<font color="red">Vulnerability found</font><br />'
             vp = True
@@ -439,8 +432,9 @@ class Ui_MAIAN(object):
 
 
         contract = self.txtSolidity.toPlainText()
+
         with open('out/lastcontract','w') as f:
-            f.write(contract)
+            f.write(contract.encode('utf-8'))
             f.close()
 
         if self.radioBytecode.isChecked():
