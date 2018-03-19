@@ -81,7 +81,7 @@ def kill_active_blockchain():
         pid = int(line.split(None, 1)[0])
         p2 = subprocess.Popen(['ps','-p',str(pid) ], stdout=subprocess.PIPE, stderr=devnull)
         out2,err2 = p2.communicate()
-        if out2.find('datadir') >= 0:
+        if bytes.decode(out2).find('datadir') >= 0:
             os.kill(pid, signal.SIGKILL)
         time.sleep(1)
 

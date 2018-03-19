@@ -29,7 +29,7 @@ def compile_contract(filename):
     solo = ''
     while p.poll() is None:
         l = p.stdout.readline()
-        solo += l
+        solo += bytes.decode(l)
     if 'Error' in solo:
         print(solo)
         print('\033[91m[-] Cannot compile the contract \033[0m')
