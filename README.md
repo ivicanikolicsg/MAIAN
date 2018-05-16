@@ -40,10 +40,23 @@ Maian should run smoothly on Linux (we've checked on Ubuntu/Mint) and MacOS. Our
 The list of dependencies is as follows:
 
 1. Go Ethereum, check https://ethereum.github.io/go-ethereum/install/
+2. Python 2.7. The code is not compatible with Python 3.x
 2. Solidity compiler, check http://solidity.readthedocs.io/en/develop/installing-solidity.html
 3. Z3 Theorem prover, check https://github.com/Z3Prover/z3
-4. web3, try `pip install web3`
+4. Python libraries defined in `requirements.txt`
 5. PyQt5 (only for GUI Maian), try `sudo apt install python-pyqt5` 
+
+## Running with Docker
+
+There is a Dockerfile which will build a container image with all dependencies. Build it with `docker build -t maian .`
+
+Running the analyzer interactively in a containter works like so.
+
+`docker run --rm -it -v $PWD/path/to/contracts:/mnt maian:latest /bin/bash`
+
+This will drop you into a shell with the contents of `$PWD/path/to/contracts` available at `/mnt`
+
+Another perk of the Dockerfile is it shows the dependencies for Ubuntu, if you're building outside of a container.
 
 ## Important
 
