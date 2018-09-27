@@ -3,16 +3,16 @@ from instruction_list import *
 def print_code(code,ops):
     for o in ops:
         print('%6x  : %4d : %2s : %12s : %s' % (o['id'],o['id'], o['op'],o['o'] , o['input']) )
-    print('Total byte/code size: %d %d' % (len(code)/2,len(ops)) )
+    print('Total byte/code size: %d %d' % (len(code)//2,len(ops)) )
 
 def get_one_op( code, pos, size_of_input, debug=False ):
     if pos + 2 + size_of_input > len(code ):
-        if debug: print('Incorrect code op at %x : %d : %d :  %s' % (pos/2, pos+2+size_of_input, len(code), code[pos:] ) )
+        if debug: print('Incorrect code op at %x : %d : %d :  %s' % (pos//2, pos+2+size_of_input, len(code), code[pos:] ) )
     instruction = '0x' + code[pos:pos+2]
     o = ''
     if instruction in cops:
         o = cops[ instruction ]
-    t = {'id':int(pos/2),'op':code[pos:pos+2],'input':code[pos+2:pos+2+2*size_of_input],'o':o}
+    t = {'id':int(pos//2),'op':code[pos:pos+2],'input':code[pos+2:pos+2+2*size_of_input],'o':o}
     return (pos + 2 + 2*size_of_input, t)
 
 def parse_code( code, debug = False):
