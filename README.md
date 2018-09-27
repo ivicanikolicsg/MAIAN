@@ -47,7 +47,7 @@ The list of dependencies is as follows:
 1. Python3.6 and pip3
 2. Go Ethereum, check https://ethereum.github.io/go-ethereum/install/
 3. Solidity compiler, check http://solidity.readthedocs.io/en/develop/installing-solidity.html
-4. Z3 Theorem prover, check https://github.com/Z3Prover/z3
+4. Z3 Theorem prover, check https://github.com/Z3Prover/z3 or `pip3 install z3-solver`
 5. web3, try `python3.6 -m pip install web3` or `pip3 install web3`
 6. PyQt5 (only for GUI Maian), check  https://gist.github.com/ujjwal96/1dcd57542bdaf3c9d1b0dd526ccd44ff
 7. rlp version 0.6.0, try `python3.6 -m pip install rlp==0.6.0`
@@ -59,7 +59,7 @@ The list of dependencies is as follows:
 
 To reduce the number of false positives, Maian deploys the analyzed contracts (given either as Solidity or bytecode source) on 
 a private blockchain, and confirms the found bugs by sending appropriate transactions to the contracts. 
-Therefore, during the execution of the tool, a private Ethereum blockchain is running in the background (blocks are mined on it in the same way as on the Mainnet). Our code stops the private blockchain once Maian finishes the search, however, in some  extreme cases, the blockchain keeps running. Please make sure that after the execution of the program, the private blockchain is off (i.e. `top` does not have `geth` task that corresponds to the private blockchain). 
+Therefore, during the execution of the tool, a private Ethereum blockchain is running in the background (blocks are mined on it in the same way as on the Mainnet). Our code stops the private blockchain once Maian finishes the search, however, in some  extreme cases, the blockchain keeps running. Please make sure that after the execution of the program, the private blockchain is off (i.e. `top` does not have `geth` task that corresponds to the private blockchain). Also, your system time must be the current time. 
 
 ## License
 
