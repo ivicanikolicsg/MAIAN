@@ -2,6 +2,11 @@
 
 The repository contains Python implementation of Maian -- a tool for automatic detection of buggy Ethereum smart contracts of three different types: prodigal, suicidal and greedy. Maian processes contract's bytecode and tries to build a trace of transactions to find and confirm bugs. The technical aspects of the approach are described in [our paper](https://arxiv.org/abs/1802.06038). 
 
+## Update
+* Maian source code is being ported to python3(>=3.6). Find the new manual to install and run Maian below.
+* For Linux based distributions with python3.5 as default python version, note that your pip3 might point to python3.5 instead of 3.6
+* Currently, the GUI-based Maian is still in development.
+
 ## Evaluating Contracts
 Maian analyzes smart contracts defined in a file `<contract file>` with:  
 
@@ -17,13 +22,13 @@ Maian checks for three types of buggy contracts:
 
 For instance, to check if the contract `ParityWalletLibrary.sol` given in Solidity source code with `WalletLibrary` as main contract is suicidal use
 
-	$ python maian.py -s ParityWalletLibrary.sol WalletLibrary -c 0
+	$ python3.6 maian.py -s example_contracts/ParityWalletLibrary.sol WalletLibrary -c 0
 
 The output should look like this:
 
 ![smiley](maian.png)
 
-To get the full list of options use `python maian.py -h`
+To get the full list of options use `python3.6 maian.py -h`
 
 
 
@@ -39,17 +44,22 @@ A snapshot of one run is given below
 Maian should run smoothly on Linux (we've checked on Ubuntu/Mint) and MacOS. Our attempts to run it on Windows have failed. 
 The list of dependencies is as follows:
 
-1. Go Ethereum, check https://ethereum.github.io/go-ethereum/install/
-2. Solidity compiler, check http://solidity.readthedocs.io/en/develop/installing-solidity.html
-3. Z3 Theorem prover, check https://github.com/Z3Prover/z3
-4. web3, try `pip install web3`
-5. PyQt5 (only for GUI Maian), try `sudo apt install python-pyqt5` 
+1. Python3.6 and pip3
+2. Go Ethereum, check https://ethereum.github.io/go-ethereum/install/
+3. Solidity compiler, check http://solidity.readthedocs.io/en/develop/installing-solidity.html
+4. Z3 Theorem prover, check https://github.com/Z3Prover/z3 or `pip3 install z3-solver`
+5. web3, try `python3.6 -m pip install web3` or `pip3 install web3`
+6. PyQt5 (only for GUI Maian), check  https://gist.github.com/ujjwal96/1dcd57542bdaf3c9d1b0dd526ccd44ff
+7. rlp version 0.6.0, try `python3.6 -m pip install rlp==0.6.0`
+8. pysha3, try `python3.6 -m pip install pysha3`
+
+**All these dependencies must be installed for python3.6**
 
 ## Important
 
 To reduce the number of false positives, Maian deploys the analyzed contracts (given either as Solidity or bytecode source) on 
 a private blockchain, and confirms the found bugs by sending appropriate transactions to the contracts. 
-Therefore, during the execution of the tool, a private Ethereum blockchain is running in the background (blocks are mined on it in the same way as on the Mainnet). Our code stops the private blockchain once Maian finishes the search, however, in some  extreme cases, the blockchain keeps running. Please make sure that after the execution of the program, the private blockchain is off (i.e. `top` does not have `geth` task that corresponds to the private blockchain). 
+Therefore, during the execution of the tool, a private Ethereum blockchain is running in the background (blocks are mined on it in the same way as on the Mainnet). Our code stops the private blockchain once Maian finishes the search, however, in some  extreme cases, the blockchain keeps running. Please make sure that after the execution of the program, the private blockchain is off (i.e. `top` does not have `geth` task that corresponds to the private blockchain). Also, your system time must be the current time. 
 
 ## License
 

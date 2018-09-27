@@ -14,7 +14,7 @@ except:
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from Queue import Queue
+from queue import Queue
 import sys
 import subprocess
 import threading
@@ -303,9 +303,20 @@ class Ui_MAIAN(object):
         self.retranslateUi(MAIAN)
         QtCore.QMetaObject.connectSlotsByName(MAIAN)
 
-        self.pushStart.clicked.connect(self.start_thread)
-        self.txtLog.textChanged.connect(self.changed_log)
-        self.txtSolidity.textChanged.connect(self.changed_source)
+        try:
+            self.pushStart.clicked.connect(self.start_thread)
+        except:
+            pass
+
+        try:    
+            self.txtLog.textChanged.connect(self.changed_log)
+        except:
+            pass
+
+        try:    
+            self.txtSolidity.textChanged.connect(self.changed_source)
+        except:
+            pass
 
         self.last_pos = 0  
         self.locked_text = False
@@ -553,7 +564,10 @@ if __name__ == "__main__":
 
     thread = QtCore.QThread()
     my_receiver = MyReceiver(queue)
-    my_receiver.mysignal.connect(ui.append_text)
+    try:
+        my_receiver.mysignal.connect(ui.append_text)
+    except:
+        pass
     my_receiver.moveToThread(thread)
     thread.started.connect(my_receiver.run)
     thread.start()    

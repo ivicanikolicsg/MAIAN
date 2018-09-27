@@ -1,5 +1,5 @@
 from __future__ import print_function
-from web3 import Web3, KeepAliveRPCProvider, IPCProvider
+from web3 import Web3
 import os.path
 import json
 import sched, time
@@ -56,7 +56,7 @@ def get_function_hashes(contract):
                     hs += i['type']
                     fr = False
             hs += ')'
-            hash_op = Web3.sha3(hs.encode('utf-8'), encoding='bytes')
+            hash_op = Web3.sha3(hs.encode('utf-8'))
 
             fhashes[hash_op[2:10]] = hs
 
@@ -162,8 +162,8 @@ def normalize_address(x, allow_blank=False):
 def predict_contract_address(accountAddress):
 
     nonce = int(MyGlobals.web3.eth.getTransactionCount(accountAddress)) 
-    adr = Web3.sha3(rlp.encode([normalize_address(accountAddress), nonce]), encoding='bytes')[-40:]
-    return '0x'+adr
+    adr = str(Web3.sha3(rlp.encode([normalize_address(accountAddress), nonce])).hex())[-40:]
+    return Web3.toChecksumAddress('0x'+adr)
 
 
 
