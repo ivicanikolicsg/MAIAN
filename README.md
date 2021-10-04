@@ -55,7 +55,4 @@ Therefore, during the execution of the tool, a private Ethereum blockchain is ru
 
 Maian is released under the [MIT License](https://opensource.org/licenses/MIT), i.e. free for private and commercial use.
 
-## Donations
-
-To help keep this and other future tools free and up to date, consider donating Ether to our account: 0xfd03b29b5c20f878836a3b35718351adf24f4a06
  
