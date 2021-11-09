@@ -1,5 +1,5 @@
 from __future__ import print_function
-from web3 import Web3, KeepAliveRPCProvider, IPCProvider
+from web3 import Web3, IPCProvider
 import os.path
 import json
 import sched, time
