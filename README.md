@@ -1,9 +1,9 @@
 # Maian 
 
-The repository contains the Python implementation of Maian -- a tool for automatic detection of buggy Ethereum smart contracts of three different types: prodigal, suicidal and greedy. Maian processes contract's bytecode and tries to build a trace of transactions to find and confirm bugs. The technical aspects of the approach are described in the paper [I. Nikolic et al.: Finding the Greedy, Prodigal, and Suicidal Contracts at Scale, arXiv, 2018](https://arxiv.org/abs/1802.06038).
+This repository contains the Python implementation of Maian -- a tool for automatic detection of buggy Ethereum smart contracts of three different types: prodigal, suicidal and greedy. Maian processes contract's bytecode and tries to build a trace of transactions to find and confirm bugs. The technical aspects of the approach are described in the paper [I. Nikolic et al.: Finding the Greedy, Prodigal, and Suicidal Contracts at Scale, arXiv, 2018](https://arxiv.org/abs/1802.06038).
 
 Maian was originally published in the repository https://github.com/ivicanikolicsg/MAIAN, but seems unmaintained since 2018.
-This fork updates the code to recent (2021) versions of Python, geth, Z3, and web3. The graphical user interface has not yet been updated and probably will not yet work.
+This fork updates the code to recent (Dec 2021) versions of Python, geth, Z3, and web3. The graphical user interface has not yet been updated and probably will not work.
 
 ## Evaluating Contracts
 Maian analyzes smart contracts defined in a file `<contract file>` with:  
@@ -46,6 +46,7 @@ The list of dependencies is as follows:
 2. `python3`, Python3, see https://www.python.org/downloads
 3. `z3`, Z3 constraint solver, see https://github.com/Z3Prover/z3
 4. `solc`, Solidity compiler, check http://solidity.readthedocs.io/en/develop/installing-solidity.html
+
    Note that the correct version of the Solidity compiler depends on the version required by the source code you want to analyze.
    Check the information following `pragma solidity` in the `sol` files. Binaries of all versions can be found at https://github.com/ethereum/solidity/releases or https://github.com/ethereum/solc-bin
 5. `web3.py`, the Python interface to Ethereum blockchains
@@ -54,35 +55,35 @@ The list of dependencies is as follows:
 After installing `geth`, `python3` and `z3`, the following steps under Linux/MacOS should install MAIAN.
 
 ```console
-$ git clone https://github.com/smartbugs/MAIAN.git # get MAIAN
-$ cd MAIAN
-$ python3 -m venv venv # we recomment to use a virtual environment
-$ source venv/bin/activate # activate it before modifying or running MAIAN
-$ pip install --upgrade pip # update Python's installer
-$ pip install wheel
-$ pip install web3 z3-solver
+git clone https://github.com/smartbugs/MAIAN.git # get MAIAN
+cd MAIAN
+python3 -m venv venv # we recommend to use a virtual environment
+source venv/bin/activate # activate it before modifying or running MAIAN
+pip install --upgrade pip # update Python's installer
+pip install wheel
+pip install web3 z3-solver
 ```
-In case of problems, see `requirements.txt` for the package versions that work for us.
+See `requirements.txt` for the package versions that work for us (in conjunction with Python 3.6.9, Z3 4.8.13 and Geth 1.10.13-stable).
 
-To run the sample contracts in the distribution,  we install the compiler for Solidity v0.4.x from the github repo `ethereum/solc-bin`
+To run the sample contracts in the distribution,  we install the compiler for Solidity v0.4.x from the github repo `ethereum/solc-bin`.
 ```console
-$ wget https://github.com/ethereum/solc-bin/raw/gh-pages/linux-amd64/solc-linux-amd64-v0.4.26%2Bcommit.4563c3f
-$ chmod +x solc-linux-amd64-v0.4.26+commit.4563c3fc
-$ ln -s ../../solc-linux-amd64-v0.4.26+commit.4563c3fc venv/bin/solc
+wget https://github.com/ethereum/solc-bin/raw/gh-pages/linux-amd64/solc-linux-amd64-v0.4.26%2Bcommit.4563c3fc
+chmod +x solc-linux-amd64-v0.4.26+commit.4563c3fc
+ln -s ../../solc-linux-amd64-v0.4.26+commit.4563c3fc venv/bin/solc
 ```
 The last command installs the binary as `solc` whenever you activate the virtual environment.
 
 Test the installation by running the sample contracts.
 ```console
-$ cd tool
-$ python maian.py -s example_contracts/ParityWalletLibrary.sol WalletLibrary -c 0
+cd tool
+python maian.py -s example_contracts/ParityWalletLibrary.sol WalletLibrary -c 0
 ```
 
 From now on, you need the following steps to run Maian.
 ```console
-$ cd MAIAN/tool # go to the home directory of Maian
-$ source ../venv/bin/activate # activate the virtual environment
-$ python maian.py ... # run Maian
+cd MAIAN/tool # go to the home directory of Maian
+source ../venv/bin/activate # activate the virtual environment
+python maian.py ... # run Maian
 ```
 
 ## Important
