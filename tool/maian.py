@@ -20,8 +20,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 '''
 
-from __future__ import print_function
-from web3 import Web3, KeepAliveRPCProvider, IPCProvider
 import argparse,subprocess,sys
 
 
@@ -136,7 +134,7 @@ def main(args):
                 return 
 
 
-        code = MyGlobals.web3.eth.getCode(contract_address)
+        code = MyGlobals.web3.eth.getCode(contract_address).hex()
         if code[0:2] == '0x': code = code[2:]
 
         if 0 == MyGlobals.checktype: ret = check_suicide.check_one_contract_on_suicide(code, contract_address, MyGlobals.debug, MyGlobals.read_from_blockchain, True, fhashes)
