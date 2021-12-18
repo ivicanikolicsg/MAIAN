@@ -30,7 +30,7 @@ To get the full list of options use `python maian.py -h`
 
 
 
-### GUI
+## GUI
 
 For GUI inclined audience, we provide  a simple GUI-based Maian. Use `python gui-maian.py` to start it. 
 A snapshot of one run is given below
@@ -94,6 +94,6 @@ Therefore, during the execution of the tool, a private Ethereum blockchain is ru
 
 ## License
 
-Maian is released under the [MIT License](https://opensource.org/licenses/MIT), i.e. free to use it for private and commercial purposes.
+Maian is released under the [MIT License](https://opensource.org/licenses/MIT), i.e. free for private and commercial use.
 
  
