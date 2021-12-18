@@ -52,7 +52,7 @@ The list of dependencies is as follows:
 5. `web3.py`, the Python interface to Ethereum blockchains
 6. PyQt5 (only for GUI Maian), try `sudo apt install python-pyqt5`
 
-After installing `geth`, `python3` and `z3`, the following steps under Linux/MacOS should install MAIAN.
+After installing `geth`, `python3` and `z3`, the following steps install Maian under Linux/MacOS.
 
 ```console
 git clone https://github.com/smartbugs/MAIAN.git # get MAIAN
