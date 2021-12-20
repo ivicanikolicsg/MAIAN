@@ -3,7 +3,7 @@
 This repository contains the Python implementation of Maian -- a tool for automatic detection of buggy Ethereum smart contracts of three different types: prodigal, suicidal and greedy. Maian processes contract's bytecode and tries to build a trace of transactions to find and confirm bugs. The technical aspects of the approach are described in the paper [I. Nikolic et al.: Finding the Greedy, Prodigal, and Suicidal Contracts at Scale, arXiv, 2018](https://arxiv.org/abs/1802.06038).
 
 Maian was originally published in the repository https://github.com/ivicanikolicsg/MAIAN, but seems unmaintained since 2018.
-This fork updates the code to recent (Dec 2021) versions of Python, geth, Z3, and web3. The graphical user interface has not yet been updated and probably will not work.
+This fork updates the code (except for the graphical interface) to recent (Dec 2021) versions of Python, geth, Z3, and web3. The graphical user interface has not yet been updated and probably will not work.
 
 ## Evaluating Contracts
 Maian analyzes smart contracts defined in a file `<contract file>` with:  
@@ -29,14 +29,6 @@ The output should look like this:
 To get the full list of options use `python maian.py -h`
 
 
-
-## GUI
-
-For GUI inclined audience, we provide  a simple GUI-based Maian. Use `python gui-maian.py` to start it. 
-A snapshot of one run is given below
-
-![](./gui-maian.png)
-
 ## Installation
 
 Maian should run smoothly on Linux (we've checked on Ubuntu) and MacOS. 
@@ -50,7 +42,6 @@ The list of dependencies is as follows:
    Note that the correct version of the Solidity compiler depends on the version required by the source code you want to analyze.
    Check the information following `pragma solidity` in the `sol` files. Binaries of all versions can be found at https://github.com/ethereum/solidity/releases or https://github.com/ethereum/solc-bin
 5. `web3.py`, the Python interface to Ethereum blockchains
-6. PyQt5 (only for GUI Maian), try `sudo apt install python-pyqt5`
 
 After installing `geth`, `python3` and `z3`, the following steps install Maian under Linux/MacOS.
 
@@ -79,7 +70,7 @@ cd tool
 python maian.py -s example_contracts/ParityWalletLibrary.sol WalletLibrary -c 0
 ```
 
-From now on, you need the following steps to run Maian.
+After installation, run Maian as follows.
 ```console
 cd MAIAN/tool # go to the home directory of Maian
 source ../venv/bin/activate # activate the virtual environment
