@@ -39,17 +39,17 @@ The list of dependencies is as follows:
 3. `z3`, Z3 constraint solver, see https://github.com/Z3Prover/z3
 4. `solc`, Solidity compiler, check http://solidity.readthedocs.io/en/develop/installing-solidity.html
 
-   Note that the correct version of the Solidity compiler depends on the version required by the source code you want to analyze.
+   Note that the correct version of the Solidity compiler depends on the source code you want to analyze.
    Check the information following `pragma solidity` in the `sol` files. Binaries of all versions can be found at https://github.com/ethereum/solidity/releases or https://github.com/ethereum/solc-bin
 5. `web3.py`, the Python interface to Ethereum blockchains
 
 After installing `geth`, `python3` and `z3`, the following steps install Maian under Linux/MacOS.
 
 ```console
-git clone https://github.com/smartbugs/MAIAN.git # get MAIAN
+git clone https://github.com/smartbugs/MAIAN.git # download Maian
 cd MAIAN
-python3 -m venv venv # we recommend to use a virtual environment
-source venv/bin/activate # activate it before modifying or running MAIAN
+python3 -m venv venv # we suggest to use a virtual environment
+source venv/bin/activate # activate it before using Maian
 pip install --upgrade pip # update Python's installer
 pip install wheel
 pip install web3 z3-solver
