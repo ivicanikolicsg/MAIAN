@@ -43,7 +43,7 @@ The list of dependencies is as follows:
    Check the information following `pragma solidity` in the `sol` files. Binaries of all versions can be found at https://github.com/ethereum/solidity/releases or https://github.com/ethereum/solc-bin
 5. `web3.py`, the Python interface to Ethereum blockchains
 
-After installing `geth`, `python3` and `z3`, the following steps install Maian under Linux/MacOS.
+After installing `geth`, `python3` and `z3`, **the following steps install Maian under Linux/MacOS**.
 
 ```console
 git clone https://github.com/smartbugs/MAIAN.git # download Maian
@@ -56,15 +56,15 @@ pip install web3 z3-solver
 ```
 See `requirements-3.6.txt` and `requirements-3.8.txt` for the package versions that work for us (in conjunction with Python 3.6.9 or 3.8.10, Z3 4.8.14 and Geth 1.10.14-stable).
 
-To run the sample contracts in the distribution,  we install the compiler for Solidity v0.4.x from the github repo `ethereum/solc-bin`.
+**To analyze the sample contracts in the distribution,**  we install the compiler for Solidity v0.4.x from the github repo `ethereum/solc-bin`.
 ```console
 wget https://github.com/ethereum/solc-bin/raw/gh-pages/linux-amd64/solc-linux-amd64-v0.4.26%2Bcommit.4563c3fc
 chmod +x solc-linux-amd64-v0.4.26+commit.4563c3fc
 ln -s ../../solc-linux-amd64-v0.4.26+commit.4563c3fc venv/bin/solc
 ```
-The last command makes the binary available as `solc` as soon as you activate the virtual environment.
+The last command makes the binary available as `solc` if the virtual environment is activated.
 
-Test the installation by running the sample contracts.
+Test the installation by analyzing the sample contracts.
 ```console
 cd tool
 python maian.py -s example_contracts/ParityWalletLibrary.sol WalletLibrary -c 0
@@ -74,7 +74,7 @@ python maian.py -b example_contracts/example_greedy.bytecode -c 2 # runtime/depl
 python maian.py -bs example_contracts/example_lock.bytecode_source -c 0 # creation/deployment bytecode
 ```
 
-Once installed, run Maian subsequently as follows.
+**Once installed, run Maian subsequently as follows.**
 ```console
 cd MAIAN/tool # go to the home directory of Maian
 source ../venv/bin/activate # activate the virtual environment
