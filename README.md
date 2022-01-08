@@ -68,6 +68,10 @@ Test the installation by running the sample contracts.
 ```console
 cd tool
 python maian.py -s example_contracts/ParityWalletLibrary.sol WalletLibrary -c 0
+python maian.py -s example_contracts/ParityWalletLibrary.sol WalletLibrary -c 1
+python maian.py -s example_contracts/ParityWalletLibrary.sol WalletLibrary -c 2
+python maian.py -b example_contracts/example_greedy.bytecode -c 2 # runtime/deployed bytecode
+python maian.py -bs example_contracts/example_lock.bytecode_source -c 0 # creation/deployment bytecode
 ```
 
 Once installed, run Maian subsequently as follows.
