@@ -1,9 +1,9 @@
 # Maian 
 
-This repository contains the Python implementation of Maian -- a tool for automatic detection of buggy Ethereum smart contracts of three different types: prodigal, suicidal and greedy. Maian processes contract's bytecode and tries to build a trace of transactions to find and confirm bugs. The technical aspects of the approach are described in the paper [I. Nikolic et al.: Finding the Greedy, Prodigal, and Suicidal Contracts at Scale, arXiv, 2018](https://arxiv.org/abs/1802.06038).
+This repository contains the Python implementation of Maian -- a tool for automatic detection of buggy Ethereum smart contracts of three different types: prodigal, suicidal and greedy. Maian processes the bytecode of contracts and searches for sequences of transactions that trigger a bug. The technical aspects of the approach are described in the paper [I. Nikolic et al.: Finding the Greedy, Prodigal, and Suicidal Contracts at Scale, arXiv, 2018](https://arxiv.org/abs/1802.06038).
 
 Maian was originally published in the repository https://github.com/ivicanikolicsg/MAIAN, but seems unmaintained since 2018.
-This fork updates the code (except for the graphical interface) to recent (Dec 2021) versions of Python, geth, Z3, and web3. The graphical user interface has not yet been updated and probably will not work.
+This fork updates the code (except for the graphical interface) to recent (Dec 2021) versions of Python, geth, Z3, and web3.
 
 ## Evaluating Contracts
 Maian analyzes smart contracts defined in a file `<contract file>` with:  
