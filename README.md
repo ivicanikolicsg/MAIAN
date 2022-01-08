@@ -31,7 +31,7 @@ To get the full list of options use `python maian.py -h`
 
 ## Installation
 
-Maian should run smoothly on Linux (we've checked on Ubuntu) and MacOS. 
+Maian should run smoothly on Linux (we've checked Ubuntu 18.04.6 and 20.04.3) and MacOS. 
 The list of dependencies is as follows:
 
 1. `geth`, Go Ethereum, see https://geth.ethereum.org/docs/install-and-build
@@ -54,7 +54,7 @@ pip install --upgrade pip # update Python's installer
 pip install wheel
 pip install web3 z3-solver
 ```
-See `requirements-3.6.txt` and `requirements-3.8.txt` for the package versions that work for us (in conjunction with Python 3.6.9 or 3.8.0, Z3 4.8.14 and Geth 1.10.14-stable).
+See `requirements-3.6.txt` and `requirements-3.8.txt` for the package versions that work for us (in conjunction with Python 3.6.9 or 3.8.10, Z3 4.8.14 and Geth 1.10.14-stable).
 
 To run the sample contracts in the distribution,  we install the compiler for Solidity v0.4.x from the github repo `ethereum/solc-bin`.
 ```console
@@ -62,7 +62,7 @@ wget https://github.com/ethereum/solc-bin/raw/gh-pages/linux-amd64/solc-linux-am
 chmod +x solc-linux-amd64-v0.4.26+commit.4563c3fc
 ln -s ../../solc-linux-amd64-v0.4.26+commit.4563c3fc venv/bin/solc
 ```
-The last command installs the binary as `solc` whenever you activate the virtual environment.
+The last command makes the binary available as `solc` as soon as you activate the virtual environment.
 
 Test the installation by running the sample contracts.
 ```console
