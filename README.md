@@ -48,13 +48,13 @@ After installing `geth`, `python3` and `z3`, the following steps install Maian u
 ```console
 git clone https://github.com/smartbugs/MAIAN.git # download Maian
 cd MAIAN
-python3 -m venv venv # we suggest to use a virtual environment
+python3 -m venv venv # we suggest to use a virtual environment # or python3.8 -m ... for Python 3.8 
 source venv/bin/activate # activate it before using Maian
 pip install --upgrade pip # update Python's installer
 pip install wheel
 pip install web3 z3-solver
 ```
-See `requirements.txt` for the package versions that work for us (in conjunction with Python 3.6.9, Z3 4.8.13 and Geth 1.10.13-stable).
+See `requirements-3.6.txt` and `requirements-3.8.txt` for the package versions that work for us (in conjunction with Python 3.6.9 or 3.8.0, Z3 4.8.14 and Geth 1.10.14-stable).
 
 To run the sample contracts in the distribution,  we install the compiler for Solidity v0.4.x from the github repo `ethereum/solc-bin`.
 ```console
@@ -70,7 +70,7 @@ cd tool
 python maian.py -s example_contracts/ParityWalletLibrary.sol WalletLibrary -c 0
 ```
 
-After installation, run Maian as follows.
+Once installed, run Maian subsequently as follows.
 ```console
 cd MAIAN/tool # go to the home directory of Maian
 source ../venv/bin/activate # activate the virtual environment
