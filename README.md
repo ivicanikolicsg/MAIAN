@@ -56,6 +56,18 @@ pip install web3 z3-solver
 ```
 See `requirements-3.6.txt` and `requirements-3.8.txt` for the package versions that work for us (in conjunction with Python 3.6.9 or 3.8.10, Z3 4.8.14 and Geth 1.10.14-stable).
 
+**Running Maian with limited cpu resources (like within a Docker image).**
+Every 30000 blocks `geth` computes 1 GB of data that is required for PoW-mining the next 30000 blocks.
+The data is cached in `~/.ethash`.
+When starting `geth` for a new blockchain, it will actually compute *two* of these data blocks.
+Maian runs a new blockchain for every analysis of a source file or a deployment code, so it may happen that the analysis times out while waiting for the generation of this data.
+This happens in particularly when running Maian in a Docker image with restricted cpu resources (like `docker run --cpus 1`).
+To circumvent the problem, you can precompute the data with the following commands, with with the user that you use for Maian.
+```console
+geth makedag     0 ~/.ethash # precompute dag for blocks     0-29999
+geth makedag 30000 ~/.ethash # precompute dag for blocks 30000-59999
+```
+
 **To analyze the sample contracts in the distribution,**  we install the compiler for Solidity v0.4.x from the github repo `ethereum/solc-bin`.
 ```console
 wget https://github.com/ethereum/solc-bin/raw/gh-pages/linux-amd64/solc-linux-amd64-v0.4.26%2Bcommit.4563c3fc
