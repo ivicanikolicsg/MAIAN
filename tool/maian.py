@@ -158,9 +158,11 @@ def main(args):
         code = code.replace('\n','').replace('\r','').replace(' ','')
         if code[0:2] == '0x': code = code[2:]
 
-        if 0 == MyGlobals.checktype:        ret = check_suicide.check_one_contract_on_suicide(code, '', MyGlobals.debug, MyGlobals.read_from_blockchain, False)
-        elif 1 == MyGlobals.checktype:  ret = check_leak.check_one_contract_on_ether_leak(code, '', MyGlobals.debug, MyGlobals.read_from_blockchain, False)
-        elif 2 == MyGlobals.checktype:  ret =  check_lock.check_one_contract_on_ether_lock(code, '', MyGlobals.debug, MyGlobals.read_from_blockchain)
+
+        dummy_contract_address = '0xaFFECAFEAFfECaFEaFFecAfEAFfecAfEAffEcaFE' # to avoid that the analysis of ADDRESS and ORIGIN crashes
+        if 0 == MyGlobals.checktype:        ret = check_suicide.check_one_contract_on_suicide(code, dummy_contract_address, MyGlobals.debug, MyGlobals.read_from_blockchain, False)
+        elif 1 == MyGlobals.checktype:  ret = check_leak.check_one_contract_on_ether_leak(code, dummy_contract_address, MyGlobals.debug, MyGlobals.read_from_blockchain, False)
+        elif 2 == MyGlobals.checktype:  ret =  check_lock.check_one_contract_on_ether_lock(code, dummy_contract_address, MyGlobals.debug, MyGlobals.read_from_blockchain)
 
 
 
