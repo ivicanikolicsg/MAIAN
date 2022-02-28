@@ -113,7 +113,7 @@ def binary( o1, o2 , step, op='NONE'):
         else: 
             return {'type':'undefined','step':step}
     elif op =='DIV' : z3 = UDiv(z1,z2) 
-    elif op =='SDIV': z3 = z1//z2 
+    elif op =='SDIV': z3 = z1/z2 
     elif op =='MOD' : z3 = URem(z1,z2)
     elif op =='SMOD' : z3 = z1 % z2 
     elif op =='MUL' : z3 = z1 * z2 

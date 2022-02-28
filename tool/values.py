@@ -29,8 +29,15 @@ def initialize_params(read_from_blockchain, c_address):
     global st
     MyGlobals.st = {}
     MyGlobals.st['my_address'] = MyGlobals.adversary_account
-    MyGlobals.st['contract_address'] = c_address
-    if read_from_blockchain:
+
+# When analyzing deployed bytecode, maian.py sets the contract address to ''.
+# This leads to problems in execute_instruction.py when simulating ADDRESS and ORIGIN
+#    MyGlobals.st['contract_address'] = c_address
+    if c_address == '':
+        c_address = 'affecafeaffecafeaffecafeaffecafeaffecafe'
+    MyGlobals.st['contract_address'] = Web3.toChecksumAddress(c_address)[2:]
+
+if read_from_blockchain:
         MyGlobals.st['contract_balance'] = str(MyGlobals.web3.eth.getBalance(c_address)+1).zfill(64)
     else:
         MyGlobals.st['contract_balance'] = '7' * 64
