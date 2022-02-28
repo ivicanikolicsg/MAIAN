@@ -37,7 +37,7 @@ def initialize_params(read_from_blockchain, c_address):
         c_address = 'affecafeaffecafeaffecafeaffecafeaffecafe'
     MyGlobals.st['contract_address'] = Web3.toChecksumAddress(c_address)[2:]
 
-if read_from_blockchain:
+    if read_from_blockchain:
         MyGlobals.st['contract_balance'] = str(MyGlobals.web3.eth.getBalance(c_address)+1).zfill(64)
     else:
         MyGlobals.st['contract_balance'] = '7' * 64
