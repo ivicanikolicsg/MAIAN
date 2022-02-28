@@ -443,8 +443,8 @@ def execute( code, stack, pos, storage, mmemory, data, trace, calldepth, debug, 
 
         if (ea//32)*32 not in mmemory: 
             mmemory[(ea//32)*32] = {'type':'constant','step':step, 'z3':BitVecVal(ev << (31- (ea%32)), 256) }
-        elif is_fixed( mmemory[(ea//32)*32]['z3'] ):
-            v = get_value( mmemory[(ea//32)*32]['z3'] )
+        elif is_fixed( mmemory[(ea//32)*32] ):
+            v = get_value( mmemory[(ea//32)*32] )
             v = (v & (~BitVecVal(0xff,256) << (31- (ea%32)))) ^ (ev << (31- (ea%32)))
             mmemory[(ea//32)*32]['z3'] = v
 
