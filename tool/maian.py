@@ -23,29 +23,30 @@ SOFTWARE.
 import argparse,subprocess,sys
 
 
-found_depend = False
+found_z3 = False
 try:
     import z3
+    found_z3 = True
 except:
     print("\033[91m[-] Python module z3 is missing.\033[0m Please install it (check https://github.com/Z3Prover/z3)")
-    found_depend = True
+
+found_web3 = False
 try:
     import web3
+    found_web3 = True
 except:
     print("\033[91m[-] Python module web3 is missing.\033[0m Please install it (pip install web3).")
-    found_depend = True
 
-if not (subprocess.call("type solc", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE) == 0):
-    print("\033[91m[-] Solidity compiler is missing.\033[0m Please install it (check http://solidity.readthedocs.io/en/develop/installing-solidity.html) and make sure solc is in the path.")
-    found_depend = True
+found_solc = subprocess.call("type solc", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE) == 0
+if not found_solc:
+    print("\033[91m[-] Solidity compiler is missing.\033[0m Please install it (check solidity.readthedocs.io) and make sure solc is in the path. Otherwise you cannot process Solidity source code (flag -s).")
 
-if not (subprocess.call("type geth", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE) == 0):
-    print("\033[91m[-] Go Ethereum is missing.\033[0m Please install it (check https://ethereum.github.io/go-ethereum/install/) and make sure geth is in the path.")
-    found_depend = True
+found_geth = subprocess.call("type geth", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE) == 0
+if not found_geth:
+    print("\033[91m[-] Go Ethereum is missing.\033[0m Please install it (check ethereum.github.io) and make sure geth is in the path. Otherwise you cannot process Solidity source code (flag -s) or deployment bytecode (flag -bs).")
 
-if found_depend:
+if not (found_z3 and found_web3):
     sys.exit(1)
-
 
 
 import check_suicide 
@@ -73,15 +74,15 @@ def main(args):
 
     args = parser.parse_args( args )
 
+    args.soliditycode = args.soliditycode and found_solc and found_geth
+    args.bytecode_source = args.bytecode_source and found_geth
 
     if args.debug:          MyGlobals.debug = True
     if args.max_inv:        MyGlobals.max_calldepth_in_normal_search = int(args.max_inv)
     if args.solve_timeout:  MyGlobals.SOLVER_TIMEOUT = int(args.solve_timeout)
     if args.check:          MyGlobals.checktype = int(args.check)
 
-
     kill_active_blockchain()
-
 
     if args.soliditycode or args.bytecode_source:
 
