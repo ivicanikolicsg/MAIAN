@@ -74,8 +74,8 @@ def main(args):
 
     args = parser.parse_args( args )
 
-    args.soliditycode = args.soliditycode and found_solc and found_geth
-    args.bytecode_source = args.bytecode_source and found_geth
+    if (args.soliditycode and not (found_solc and found_geth)) or (args.bytecode_source and not found_geth):
+        sys.exit(1)
 
     if args.debug:          MyGlobals.debug = True
     if args.max_inv:        MyGlobals.max_calldepth_in_normal_search = int(args.max_inv)
