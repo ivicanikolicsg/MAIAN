@@ -1,4 +1,3 @@
-from __future__ import print_function
 import os
 import sys
 import re
@@ -178,6 +177,7 @@ def execute_one_block( ops , stack , pos , trace, storage, mmemory, data, config
 
 
                     except Exception as e:
+                        raise
                         print ("Exception: "+str(e))
 
                     MyGlobals.s.pop()
@@ -229,6 +229,7 @@ def execute_one_block( ops , stack , pos , trace, storage, mmemory, data, config
 
 
                     except Exception as e:
+                        raise
                         print ("Exception: "+str(e))
 
                     MyGlobals.s.pop()

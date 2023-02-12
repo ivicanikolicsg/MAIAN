@@ -20,34 +20,33 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 '''
 
-from __future__ import print_function
-from web3 import Web3, KeepAliveRPCProvider, IPCProvider
 import argparse,subprocess,sys
 
 
-found_depend = False
+found_z3 = False
 try:
     import z3
+    found_z3 = True
 except:
     print("\033[91m[-] Python module z3 is missing.\033[0m Please install it (check https://github.com/Z3Prover/z3)")
-    found_depend = True
+
+found_web3 = False
 try:
     import web3
+    found_web3 = True
 except:
     print("\033[91m[-] Python module web3 is missing.\033[0m Please install it (pip install web3).")
-    found_depend = True
 
-if not (subprocess.call("type solc", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE) == 0):
-    print("\033[91m[-] Solidity compiler is missing.\033[0m Please install it (check http://solidity.readthedocs.io/en/develop/installing-solidity.html) and make sure solc is in the path.")
-    found_depend = True
+found_solc = subprocess.call("type solc", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE) == 0
+if not found_solc:
+    print("\033[91m[-] Solidity compiler is missing.\033[0m Please install it (check solidity.readthedocs.io) and make sure solc is in the path. Otherwise you cannot process Solidity source code (flag -s).")
 
-if not (subprocess.call("type geth", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE) == 0):
-    print("\033[91m[-] Go Ethereum is missing.\033[0m Please install it (check https://ethereum.github.io/go-ethereum/install/) and make sure geth is in the path.")
-    found_depend = True
+found_geth = subprocess.call("type geth", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE) == 0
+if not found_geth:
+    print("\033[91m[-] Go Ethereum is missing.\033[0m Please install it (check ethereum.github.io) and make sure geth is in the path. Otherwise you cannot process Solidity source code (flag -s) or deployment bytecode (flag -bs).")
 
-if found_depend:
+if not (found_z3 and found_web3):
     sys.exit(1)
-
 
 
 import check_suicide 
@@ -75,15 +74,15 @@ def main(args):
 
     args = parser.parse_args( args )
 
+    if (args.soliditycode and not (found_solc and found_geth)) or (args.bytecode_source and not found_geth):
+        sys.exit(1)
 
     if args.debug:          MyGlobals.debug = True
     if args.max_inv:        MyGlobals.max_calldepth_in_normal_search = int(args.max_inv)
     if args.solve_timeout:  MyGlobals.SOLVER_TIMEOUT = int(args.solve_timeout)
     if args.check:          MyGlobals.checktype = int(args.check)
 
-
     kill_active_blockchain()
-
 
     if args.soliditycode or args.bytecode_source:
 
@@ -136,7 +135,7 @@ def main(args):
                 return 
 
 
-        code = MyGlobals.web3.eth.getCode(contract_address)
+        code = MyGlobals.web3.eth.getCode(contract_address).hex()
         if code[0:2] == '0x': code = code[2:]
 
         if 0 == MyGlobals.checktype: ret = check_suicide.check_one_contract_on_suicide(code, contract_address, MyGlobals.debug, MyGlobals.read_from_blockchain, True, fhashes)
@@ -160,9 +159,11 @@ def main(args):
         code = code.replace('\n','').replace('\r','').replace(' ','')
         if code[0:2] == '0x': code = code[2:]
 
-        if 0 == MyGlobals.checktype:        ret = check_suicide.check_one_contract_on_suicide(code, '', MyGlobals.debug, MyGlobals.read_from_blockchain, False)
-        elif 1 == MyGlobals.checktype:  ret = check_leak.check_one_contract_on_ether_leak(code, '', MyGlobals.debug, MyGlobals.read_from_blockchain, False)
-        elif 2 == MyGlobals.checktype:  ret =  check_lock.check_one_contract_on_ether_lock(code, '', MyGlobals.debug, MyGlobals.read_from_blockchain)
+
+        dummy_contract_address = '0xaFFECAFEAFfECaFEaFFecAfEAFfecAfEAffEcaFE' # to avoid that the analysis of ADDRESS and ORIGIN crashes
+        if 0 == MyGlobals.checktype:        ret = check_suicide.check_one_contract_on_suicide(code, dummy_contract_address, MyGlobals.debug, MyGlobals.read_from_blockchain, False)
+        elif 1 == MyGlobals.checktype:  ret = check_leak.check_one_contract_on_ether_leak(code, dummy_contract_address, MyGlobals.debug, MyGlobals.read_from_blockchain, False)
+        elif 2 == MyGlobals.checktype:  ret =  check_lock.check_one_contract_on_ether_lock(code, dummy_contract_address, MyGlobals.debug, MyGlobals.read_from_blockchain)
 
 
 

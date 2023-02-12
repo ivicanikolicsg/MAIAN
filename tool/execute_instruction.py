@@ -1,4 +1,3 @@
-from __future__ import print_function
 import copy
 from math import *
 from instruction_list import *
@@ -6,14 +5,12 @@ from parse_code import *
 from values import get_params,set_params,print_params,is_params
 from values import create_configuration,add_configuration,configuration_exist,seen_configuration,print_configuration
 from values import MyGlobals
-from hashlib import *
-from sha3 import *
 import random
 import time
 from datetime import datetime
 from z3 import *
 from misc import *
-
+import web3
 
 def is_fixed(s): return s['type'] == 'constant' and is_bv_value(simplify(s['z3']))
 def is_undefined(s): return s['type'] == 'undefined'
@@ -242,7 +239,7 @@ def execute( code, stack, pos, storage, mmemory, data, trace, calldepth, debug, 
 
                 val = ''
                 all_good = True
-                for i in range(exact_offset/32):
+                for i in range(exact_offset//32):
                     if (exact_address + i*32) not in mmemory or not is_fixed(mmemory[exact_address+i*32]): 
                         all_good = False
                         break
@@ -250,10 +247,8 @@ def execute( code, stack, pos, storage, mmemory, data, trace, calldepth, debug, 
 
                 if all_good:
 
-                    k = keccak_256()
-                    k.update(val.encode('utf-8'))
-                    digest = k.hexdigest()
-                    res = {'type':'constant','step':step, 'z3':BitVecVal(int(digest,16), 256) }
+                    k = web3.Web3.keccak(hexstr=val)
+                    res = {'type':'constant','step':step, 'z3':BitVecVal(int.from_bytes(k,'big'), 256) }
 
         if MyGlobals.symbolic_sha and is_undefined(res):
             res = {'type':'constant','step':step, 'z3': BitVec('sha-'+str(step)+'-'+str(calldepth),256) }
@@ -353,7 +348,7 @@ def execute( code, stack, pos, storage, mmemory, data, trace, calldepth, debug, 
 
 
             if value < 10000:
-                for i in range(value/32):
+                for i in range(value//32):
                     mmemory[addr + 32 * i] = { 'type':'undefined','step':step }
 
         stack.append( {'type':'constant','step':step, 'z3':BitVec('call_at_step_'+str(step), 256) & 0x1} )     # assume the result of call can be any (True or False)
@@ -383,7 +378,7 @@ def execute( code, stack, pos, storage, mmemory, data, trace, calldepth, debug, 
                 print('\033[95m[-] In CALLDATACOPY the length of array (%d) is not multiple of 32 \033[0m' % length )
             return pos, True
 
-        for i in range( length / 32 ):
+        for i in range( length // 32 ):
             data[ datapos + 32 * i ] = BitVec('input'+str(calldepth)+'['+str(datapos + 32 * i )+']',256)
             store_in_memory( mmemory, memaddr + 32 * i , {'type':'constant','step':step,'z3':data[ datapos + 32 * i ]} )
 
@@ -446,12 +441,12 @@ def execute( code, stack, pos, storage, mmemory, data, trace, calldepth, debug, 
         ea = get_value(addr)
         ev = get_value(value) % 256
 
-        if (ea/32)*32 not in mmemory: 
-            mmemory[(ea/32)*32] = {'type':'constant','step':step, 'z3':BitVecVal(ev << (31- (ea%32)), 256) }
-        elif is_fixed( mmemory[(ea/32)*32]['z3'] ):
-            v = get_value( mmemory[(ea/32)*32]['z3'] )
+        if (ea//32)*32 not in mmemory: 
+            mmemory[(ea//32)*32] = {'type':'constant','step':step, 'z3':BitVecVal(ev << (31- (ea%32)), 256) }
+        elif is_fixed( mmemory[(ea//32)*32] ):
+            v = get_value( mmemory[(ea//32)*32] )
             v = (v & (~BitVecVal(0xff,256) << (31- (ea%32)))) ^ (ev << (31- (ea%32)))
-            mmemory[(ea/32)*32]['z3'] = v
+            mmemory[(ea//32)*32]['z3'] = v
 
 
     elif op == 'SLOAD':
